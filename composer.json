@@ -1,0 +1,27 @@
+{
+    "name": "markosirec/gls-italy-sdk",
+    "description": "PHP SDK for the GLS Italy",
+    "keywords": ["ecommerce", "logistics", "gls"],
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Marko Sirec",
+            "email": "m.sirec@gmail.com",
+            "homepage": "https://github.com/markosirec"
+        }
+    ],
+    "require": {
+        "php": ">=7.1.0",
+        "ext-curl": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "7.*"
+    },
+    "autoload": {
+        "psr-4": { "MarkoSirec\\GlsItaly\\SDK\\": "src/" }
+    },
+    "autoload-dev": {
+        "psr-4": { "MarkoSirec\\Tests\\GlsItaly\\SDK\\": "tests/" }
+    }
+}
