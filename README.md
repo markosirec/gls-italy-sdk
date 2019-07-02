@@ -8,8 +8,8 @@ Please note - GLS Italy has its own unique API and is very different from GLS br
 
 ### Prerequisites
 
-PHP 7.1
-PHP curl library
+- PHP 7.1
+- PHP curl library
 
 ### Installing
 
