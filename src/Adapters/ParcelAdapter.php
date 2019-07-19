@@ -329,7 +329,7 @@ final class ParcelAdapter extends BaseAdapter
         $parcel = new Parcel();
         $parcel->setStatus(static::convertStatus((string)$pr->StatoSpedizione));
         $parcel->setParcelId((string)$pr->NumSpedizione);
-        $parcel->setOrderId((int)$pr->RiferimentiCliente);
+        $parcel->setOrderId((int)$pr->Ddt);
         $parcel->setName((string)$pr->DenominazioneDestinatario);
         $parcel->setCity((string)$pr->CittaDestinatario);
         $parcel->setProvince((string)$pr->ProvinciaDestinatario);
