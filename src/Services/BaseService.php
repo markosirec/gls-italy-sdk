@@ -25,7 +25,7 @@ class BaseService extends Base
      * The webservice url
      * @var string
      */
-    const WEB_SERVICE_URL = 'https://weblabeling.gls-italy.com/ilsWebService.asmx';
+    const WEB_SERVICE_URL = 'https://labelservice.gls-italy.com/ilswebservice.asmx';
 
     /**
      * Main http/curl request method
