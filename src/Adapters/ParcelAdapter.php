@@ -365,6 +365,29 @@ final class ParcelAdapter extends BaseAdapter
         $response = new AddParcelResponse();
         $response->setParcelId((int)$xmlResponse->Parcel->NumeroSpedizione);
         $response->setPdfLabel((string)$xmlResponse->Parcel->PdfLabel);
+        $response->setZplLabel((string)$xmlResponse->Parcel->Zpl);
+        $response->setSenderName((string)$xmlResponse->Parcel->DenominazioneMittente);
+        $response->setVolumeWeight((string)$xmlResponse->Parcel->RapportoPesoVolume);
+        $response->setShippingDate((string)$xmlResponse->Parcel->DataSpedizione);
+        $response->setGlsDestination((string)$xmlResponse->Parcel->DescrizioneSedeDestino);
+        $response->setCSM((string)$xmlResponse->Parcel->SiglaCSM);
+        $response->setAreaCode((string)$xmlResponse->Parcel->CodiceZona);
+        $response->setInfoPrivacy((string)$xmlResponse->Parcel->InfoPrivacy);
+        $response->setReceiverName((string)$xmlResponse->Parcel->DenominazioneDestinatario);
+        $response->setAddress((string)$xmlResponse->Parcel->IndirizzoDestinatario);
+        $response->setCity((string)$xmlResponse->Parcel->CittaDestinatario);
+        $response->setProvince((string)$xmlResponse->Parcel->ProvinciaDestinatario);
+        $response->setDescription1((string)$xmlResponse->Parcel->DescrizioneCSM1);
+        $response->setDescription2((string)$xmlResponse->Parcel->DescrizioneCSM2);
+        $response->setShippingWeight((string)$xmlResponse->Parcel->PesoSpedizione);
+        $response->setShippingNotes((string)$xmlResponse->Parcel->NoteSpedizione);
+        $response->setTransportType((string)$xmlResponse->Parcel->DescrizioneTipoPorto);
+        $response->setSenderInitials((string)$xmlResponse->Parcel->SiglaMittente);
+        $response->setProgressiveParcel((string)$xmlResponse->Parcel->ProgressivoCollo);
+        $response->setParcelType((string)$xmlResponse->Parcel->TipoCollo);
+        $response->setGlsDestinationAbbr((string)$xmlResponse->Parcel->SiglaSedeDestino);
+        $response->setPrinter((string)$xmlResponse->Parcel->Sprinter);
+        $response->setTotalPackages((int)$xmlResponse->Parcel->TotaleColli);
 
         return $response;
     }
