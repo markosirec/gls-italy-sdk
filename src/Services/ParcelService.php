@@ -39,6 +39,42 @@ final class ParcelService extends BaseService
     }
 
     /**
+     * List the current parcels by status
+     * @param  Auth   $auth     Instance of the Auth object
+     * @param  String $status   - Null for all states
+     *                          - 0 for parcels awaiting closure
+     *                          - 1 for closed parcels 
+     * @return array            List of parcels
+     */
+    public static function listByStatus(Auth $auth, String $status = ""): array
+    {
+        $authAdapter = new AuthAdapter($auth);
+        $params = (array)$authAdapter->get();
+        $params['Stato'] = $status;
+        $result = static::get('ListSpedByStato', $params);
+        return ParcelAdapter::parseListResponse($result);
+    }
+
+    /**
+     * List parcels inside a timeframe. If "date from" is not specified, GLS will deduct 40 days
+     * form "date to". If "date to" is not specified, then the current date is used.
+     * Hours and minutes are optional.
+     * @param  Auth   $auth     Instance of the Auth object
+     * @param  String $dateFrom The format should be YYYYMMDDHHII (year-month-day-hour-minute) 
+     * @param  String $dateTo   The format should be YYYYMMDDHHII (year-month-day-hour-minute) 
+     * @return array            List of parcels
+     */
+    public static function listByPeriod(Auth $auth, String $dateFrom = "", String $dateTo = ""): array
+    {
+        $authAdapter = new AuthAdapter($auth);
+        $params = (array)$authAdapter->get();
+        $params['DataInizio'] = $dateFrom;
+        $params['DataFine'] = $dateTo;
+        $result = static::get('ListSpedPeriod', $params);
+        return ParcelAdapter::parseListResponse($result);
+    }
+
+    /**
      * Adds a new parcel
      * @param Auth   $auth   Instance of the Auth object
      * @param Parcel $parcel Instance of the Parcel object

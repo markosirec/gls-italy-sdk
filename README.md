@@ -23,7 +23,7 @@ composer require markosirec/gls-italy-sdk
 
 ### List parcels
 
-Here is an example on how to get a list of all parcels in the GLS system for the current day:
+Here is an example of how to get a list of parcels in the GLS system. These endpoints can sometimes return weird or incomplete results - seems to be a bug in the GLS system. Keep in mind your mileage may vary!
 
 ```
 $auth = new MarkoSirec\GlsItaly\SDK\Models\Auth();
@@ -33,7 +33,14 @@ $auth->setClientId('your-client-id');
 $auth->setContractId('your-contract-id');
 $auth->setPassword('your-password');
 
+// List parcels for the last 40 days
 $parcels = MarkoSirec\GlsItaly\SDK\Services\ParcelService::list($auth);
+
+// List parcels by status (1 = closed parcels, 0 = waiting)
+$parcels = MarkoSirec\GlsItaly\SDK\Services\ParcelService::listByStatus($auth, 1);
+
+// List parcels by date/period (YYYYMMDD or YYYYMMDDHHII)
+$parcels = MarkoSirec\GlsItaly\SDK\Services\ParcelService::listByPeriod($auth, "202001221300", "202001221700");
 
 ```
 
@@ -70,7 +77,7 @@ try {
     // this is your tracking code/id. I suggest you save it!
     $parcelId = $result->getParcelId();
 
-    // after a parcel has been added, the webservice needs you to confirm the shipping by calling the close endpoint. You can also do this later if you wish.
+    // after a parcel has been added, the webservice needs you to confirm the shipping by calling the close endpoint. You can also do this later if you wish. This is the equivalent of the "CloseWorkDay" endpoint.
     MarkoSirec\GlsItaly\SDK\Services\ParcelService::close($auth, $parcel);
 }
 
