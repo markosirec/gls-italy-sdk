@@ -90,9 +90,6 @@ class ParcelAdapterTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @expectedException MarkoSirec\GlsItaly\SDK\Exceptions\AddParcelException
-     */
     public function testParseAddResponseMissingParcelNumber(): void
     {
         $xml = '<?xml version="1.0" encoding="utf-8"?>
@@ -101,15 +98,14 @@ class ParcelAdapterTest extends \PHPUnit\Framework\TestCase
                 </Parcel>
             </InfoLabel>';
 
+        $response = ParcelAdapter::parseAddResponse($xml);
+
         $this->assertEquals(
-            true,
-            ParcelAdapter::parseAddResponse($xml)
+            'Unknown error. The parcel id was not returned.',
+            $response[0]->getError()
         );
     }
 
-    /**
-     * @expectedException MarkoSirec\GlsItaly\SDK\Exceptions\AddParcelException
-     */
     public function testParseAddResponseErrorParcelNumber(): void
     {
         $xml = '<?xml version="1.0" encoding="utf-8"?>
@@ -119,9 +115,11 @@ class ParcelAdapterTest extends \PHPUnit\Framework\TestCase
                 </Parcel>
             </InfoLabel>';
 
+        $response = ParcelAdapter::parseAddResponse($xml);
+
         $this->assertEquals(
-            true,
-            ParcelAdapter::parseAddResponse($xml)
+            'Please make sure you defined all the parcel parameters correctly.',
+            $response[0]->getError()
         );
     }
 
@@ -138,7 +136,7 @@ class ParcelAdapterTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(
             123,
-            $response->getParcelId()
+            $response[0]->getParcelId()
         );
     }
 
@@ -156,7 +154,7 @@ class ParcelAdapterTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(
             'foo',
-            $response->getPdfLabel()
+            $response[0]->getPdfLabel()
         );
     }
 

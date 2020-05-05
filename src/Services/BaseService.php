@@ -44,7 +44,8 @@ class BaseService extends Base
         curl_setopt($cr, CURLOPT_POST, 1);
         curl_setopt($cr, CURLOPT_POSTFIELDS, $postData);
         
-        curl_setopt($cr, CURLOPT_TIMEOUT, 3000);
+        curl_setopt($cr, CURLOPT_TIMEOUT, 300);
+        curl_setopt($cr, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($cr, CURLOPT_RETURNTRANSFER, true);
         
         $headers = ['Content-Type: application/x-www-form-urlencoded', 'Content-Length: ' . strlen($postData)];
@@ -64,7 +65,11 @@ class BaseService extends Base
     {
         foreach ($data as $key => $value) {
             if (is_array($value)) {
-                $newObject = $object->addChild($key);
+
+                // enable adding children with the same key via:
+                // child_0, child_1, etc. => <child></child><child></child>
+                $ex = explode("__", $key);
+                $newObject = $object->addChild($ex[0]);
                 static::toXml($newObject, $value);
             } else {
                 // if the key is an integer, it needs text with it to actually work.

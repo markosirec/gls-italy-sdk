@@ -10,3 +10,4 @@ composer.lock
 composer-test.lock
 vendor/
 .php_cs.cache
+dev/

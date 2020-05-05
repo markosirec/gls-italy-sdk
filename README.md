@@ -1,8 +1,14 @@
 # GLS Italy PHP SDK
 
-This is an unofficial PHP SDK for the GLS Italy webservice. Since the official documentation and API are both in Italian, things can get quite confusing. Therefore I decided to create a simple library with which you can easily integrate your existing project with this webservice. Input params are validated, exceptions are thrown on errors, class properties and methods are properly documented, etc. etc.
+This is an unofficial PHP SDK for the GLS Italy webservice. Since the official documentation and API are both in Italian, things can get quite confusing. Therefore I decided to create a simple SDK with which you can easily integrate your existing project.
 
 Please note - GLS Italy has its own unique API and is very different from GLS branches in other countries.
+
+## What's new
+
+### v2.0.0
+
+Adding and closing packets is now done in batches. You pass an array of Parcel instances instead of making a call for each individual parcel. (please have a look at the example below)
 
 ## Getting Started
 
@@ -44,7 +50,7 @@ $parcels = MarkoSirec\GlsItaly\SDK\Services\ParcelService::listByPeriod($auth, "
 
 ```
 
-### Add parcel and generate the PDF label/sticker
+### Add parcels and generate the PDF label/sticker
 
 For a full list of options, take a look at the Parcel model in src/Models/Parcel.php
 
@@ -56,6 +62,9 @@ $auth->setClientId('your-client-id');
 $auth->setContractId('your-contract-id');
 $auth->setPassword('your-password');
 
+$parcels = [];
+
+$parcel = new MarkoSirec\GlsItaly\SDK\Models\Parcel();
 $parcel->setName('John Smith');
 $parcel->setAddress('Via su vrangone, 191');
 $parcel->setCity('SOS ALINOS');
@@ -64,21 +73,42 @@ $parcel->setProvince('NU');
 $parcel->setWeight('2,7');
 $parcel->setEmail('email@client.com');
 $parcel->setOrderId(12345);
+$parcels[] = $parcel;
+
+$parcel = new MarkoSirec\GlsItaly\SDK\Models\Parcel();
+$parcel->setName('Barbara Jordan');
+$parcel->setAddress('Via Roma, 12');
+$parcel->setCity('SOS ALINOS');
+$parcel->setPostcode('08028');
+$parcel->setProvince('NU');
+$parcel->setWeight('2,1');
+$parcel->setEmail('email2@client.com');
+$parcel->setOrderId(12346);
+$parcels[] = $parcel;
+
+$result = MarkoSirec\GlsItaly\SDK\Services\ParcelService::add($auth, $parcels);
+
+foreach ($result as $parcel) {
+
+    if (empty($parcel->getError())) {
+
+        // this is your tracking code/id. I suggest you save it!
+        $parcelId = $parcel->getParcelId();
+
+        // generate the PDF
+        file_put_contents(
+            $parcelId.'.pdf', 
+            base64_decode($parcel->getPdfLabel())
+        );
+    }
+}
 
 try {
-    $result = MarkoSirec\GlsItaly\SDK\Services\ParcelService::add($auth, $parcel);
 
-    // generate the PDF
-    file_put_contents(
-        '/path/to/your.pdf', 
-        base64_decode($result->getPdfLabel())
-    );
-
-    // this is your tracking code/id. I suggest you save it!
-    $parcelId = $result->getParcelId();
-
-    // after a parcel has been added, the webservice needs you to confirm the shipping by calling the close endpoint. You can also do this later if you wish. This is the equivalent of the "CloseWorkDay" endpoint.
-    MarkoSirec\GlsItaly\SDK\Services\ParcelService::close($auth, $parcel);
+    // After the parcels have been added, the webservice needs you to confirm the shipping by calling the close endpoint. 
+    // You can also do this later if you wish. This is the equivalent of the "CloseWorkDay" endpoint. 
+    // You need to supply the parcels you want to "close".
+    MarkoSirec\GlsItaly\SDK\Services\ParcelService::close($auth, $parcels);
 }
 
 catch(Exception $e) {
@@ -110,7 +140,7 @@ $result = MarkoSirec\GlsItaly\SDK\Services\ParcelService::delete($auth, $parcelI
 
 ## Running the tests
 
-The library uses phpunit for tests. Cd into the library root folder and run:
+The SDK uses phpunit for tests. Cd into the SDK root folder and run:
 
 ```
 vendor/bin/phpunit tests
@@ -118,7 +148,7 @@ vendor/bin/phpunit tests
 
 ## Contributing
 
-Pull requests are very welcome. (Please use the PSR-2 coding style) This library does not yet support certain API features/endpoints so if you have a specific wish, please contact me and I will gladly help.
+Pull requests are very welcome. (Please use the PSR-2 coding style) This library does not yet support certain API features/endpoints so if you have a specific wish, please contact me and I will try to help.
 
 ## Authors
 
@@ -126,9 +156,8 @@ Pull requests are very welcome. (Please use the PSR-2 coding style) This library
 
 ## Contact
 
-- You can email me if you have questions or feature requests at m.sirec@gmail.com
-- If you want to use German/Slovenian/Croatian, you are welcome to do so =)
-- (sorry, I don't speak Italian though)
+- If you have questions or feature requests please email me at m.sirec@gmail.com
+- (sorry, I don't speak Italian)
 
 ## License
 

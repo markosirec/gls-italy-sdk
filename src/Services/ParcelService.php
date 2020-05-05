@@ -75,24 +75,27 @@ final class ParcelService extends BaseService
     }
 
     /**
-     * Adds a new parcel
+     * Adds parcels
      * @param Auth   $auth   Instance of the Auth object
-     * @param Parcel $parcel Instance of the Parcel object
+     * @param array $parcels Array containing instances of MarkoSirec\GlsItaly\SDK\Models\Parcel
      * @return AddParcelResponse
      */
-    public static function add(Auth $auth, Parcel $parcel): AddParcelResponse
+    public static function add(Auth $auth, array $parcels): array
     {
-        $parcelAdapter = new ParcelAdapter($auth, $parcel);
         $authAdapter = new AuthAdapter($auth);
+        $preparedParcels = [];
+        $xmlData = [];
+        $i = 0;
 
-        $xmlData = [
-            'Parcel' => (array)$parcelAdapter->get()
-        ];
-
+        foreach ($parcels as $parcel) {
+            $parcelAdapter = new ParcelAdapter($auth, $parcel);
+            $xmlData['Parcel__'.$i] = (array)$parcelAdapter->get();
+            $i++;
+        }
+        
         $xmlData = array_merge((array)$authAdapter->get(), $xmlData);
         $xml = new \SimpleXMLElement('<Info/>');
-
-        static::toXml($xml, $xmlData);
+        static::toXml($xml, $xmlData); 
         $result = static::get('AddParcel', ['XMLInfoParcel' => $xml->asXML()]);
 
         return ParcelAdapter::parseAddResponse($result);
@@ -101,17 +104,22 @@ final class ParcelService extends BaseService
     /**
      * Closes/finishes/commits a specific parcel
      * @param  Auth   $auth   Instance of the Auth object
-     * @param  Parcel $parcel Instance of the Parcel object
+     * @param  array $parcels Array containing instances of MarkoSirec\GlsItaly\SDK\Models\Parcel
      * @return bool           True on success
      */
-    public static function close(Auth $auth, Parcel $parcel): bool
+    public static function close(Auth $auth, array $parcels): bool
     {
-        $parcelAdapter = new ParcelAdapter($auth, $parcel);
-        $authAdapter = new AuthAdapter($auth);
+        $preparedParcels = [];
+        $xmlData = [];
+        $i = 0;
 
-        $xmlData = [
-            'Parcel' => (array)$parcelAdapter->get()
-        ];
+        foreach ($parcels as $parcel) {
+            $parcelAdapter = new ParcelAdapter($auth, $parcel);
+            $xmlData['Parcel__'.$i] = (array)$parcelAdapter->get();
+            $i++;
+        }
+
+        $authAdapter = new AuthAdapter($auth);
 
         $xmlData = array_merge((array)$authAdapter->get(), $xmlData);
         $xml = new \SimpleXMLElement('<Info/>');

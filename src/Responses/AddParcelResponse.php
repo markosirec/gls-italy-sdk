@@ -21,7 +21,7 @@ final class AddParcelResponse extends BaseResponse
     private $parcelId, $pdfLabel, $zplLabel, $senderName, $volumeWeight, $shippingDate, $glsDestination, $csm, $areaCode;
     private $infoPrivacy, $receiverName, $address, $city, $province, $description1, $description2, $shippingWeight;
     private $shippingNotes, $transportType, $senderInitials, $progressiveParcel, $parcelType, $glsDestinationAbbr;
-    private $printer, $totalPackages;
+    private $printer, $totalPackages, $error;
 
     /**
      * Parcel id setter
@@ -471,5 +471,23 @@ final class AddParcelResponse extends BaseResponse
     public function getTotalPackages(): string
     {
         return $this->totalPackages;
+    }
+
+    /**
+     * Errors setter
+     * @param string $error
+     */
+    public function setError(string $error): void
+    {
+        $this->error = $error;
+    }
+
+    /**
+     * Errors getter
+     * @return string
+     */
+    public function getError(): ?string
+    {
+        return $this->error;
     }
 }

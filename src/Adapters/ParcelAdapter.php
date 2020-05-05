@@ -342,54 +342,54 @@ final class ParcelAdapter extends BaseAdapter
     /**
      * Parses the Gls response when adding a parcel
      * @param  string $response  The raw response
-     * @throws AddParcelException if the parcel id is not supplied by Gls or if there is some other error
-     * @return AddParcelResponse Response object carrying the parcel id and pdf label
+     * @return array Array of AddParcelResponse response objects carrying the parcel id and pdf label
      */
-    public static function parseAddResponse(string $response): AddParcelResponse
+    public static function parseAddResponse(string $response): array
     {
         $xmlResponse = new \SimpleXMLElement($response);
 
-        if (!isset($xmlResponse->Parcel->NumeroSpedizione)) {
-            $exception = new AddParcelException('Unknown error. To get the original response from GLS, please call the method getResponse() on the exception object.');
-            $exception->setResponse($response);
+        $responseObjects = [];
 
-            throw $exception;
-        } elseif ($xmlResponse->Parcel->NumeroSpedizione == '999999999') {
-            $exception = new AddParcelException('Please make sure you defined all the parcel parameters correctly. To get the response xml, please call the method getXmlResponse() on the exception object.');
-            $exception->setXmlResponse($xmlResponse);
-            $exception->setResponse($response);
+        foreach ($xmlResponse->Parcel as $parcel) {
 
-            throw $exception;
+            $response = new AddParcelResponse();
+            
+            if (!isset($parcel->NumeroSpedizione)) {
+                $response->setError('Unknown error. The parcel id was not returned.');
+            } elseif ($parcel->NumeroSpedizione == '999999999') {
+                $response->setError('Please make sure you defined all the parcel parameters correctly.');
+            } else {
+                $response->setParcelId((int)$parcel->NumeroSpedizione);
+            }
+
+            $response->setPdfLabel((string)$parcel->PdfLabel);
+            $response->setZplLabel((string)$parcel->Zpl);
+            $response->setSenderName((string)$parcel->DenominazioneMittente);
+            $response->setVolumeWeight((string)$parcel->RapportoPesoVolume);
+            $response->setShippingDate((string)$parcel->DataSpedizione);
+            $response->setGlsDestination((string)$parcel->DescrizioneSedeDestino);
+            $response->setCSM((string)$parcel->SiglaCSM);
+            $response->setAreaCode((string)$parcel->CodiceZona);
+            $response->setInfoPrivacy((string)$parcel->InfoPrivacy);
+            $response->setReceiverName((string)$parcel->DenominazioneDestinatario);
+            $response->setAddress((string)$parcel->IndirizzoDestinatario);
+            $response->setCity((string)$parcel->CittaDestinatario);
+            $response->setProvince((string)$parcel->ProvinciaDestinatario);
+            $response->setDescription1((string)$parcel->DescrizioneCSM1);
+            $response->setDescription2((string)$parcel->DescrizioneCSM2);
+            $response->setShippingWeight((string)$parcel->PesoSpedizione);
+            $response->setShippingNotes((string)$parcel->NoteSpedizione);
+            $response->setTransportType((string)$parcel->DescrizioneTipoPorto);
+            $response->setSenderInitials((string)$parcel->SiglaMittente);
+            $response->setProgressiveParcel((string)$parcel->ProgressivoCollo);
+            $response->setParcelType((string)$parcel->TipoCollo);
+            $response->setGlsDestinationAbbr((string)$parcel->SiglaSedeDestino);
+            $response->setPrinter((string)$parcel->Sprinter);
+            $response->setTotalPackages((int)$parcel->TotaleColli);
+            $responseObjects[] = $response;
         }
 
-        $response = new AddParcelResponse();
-        $response->setParcelId((int)$xmlResponse->Parcel->NumeroSpedizione);
-        $response->setPdfLabel((string)$xmlResponse->Parcel->PdfLabel);
-        $response->setZplLabel((string)$xmlResponse->Parcel->Zpl);
-        $response->setSenderName((string)$xmlResponse->Parcel->DenominazioneMittente);
-        $response->setVolumeWeight((string)$xmlResponse->Parcel->RapportoPesoVolume);
-        $response->setShippingDate((string)$xmlResponse->Parcel->DataSpedizione);
-        $response->setGlsDestination((string)$xmlResponse->Parcel->DescrizioneSedeDestino);
-        $response->setCSM((string)$xmlResponse->Parcel->SiglaCSM);
-        $response->setAreaCode((string)$xmlResponse->Parcel->CodiceZona);
-        $response->setInfoPrivacy((string)$xmlResponse->Parcel->InfoPrivacy);
-        $response->setReceiverName((string)$xmlResponse->Parcel->DenominazioneDestinatario);
-        $response->setAddress((string)$xmlResponse->Parcel->IndirizzoDestinatario);
-        $response->setCity((string)$xmlResponse->Parcel->CittaDestinatario);
-        $response->setProvince((string)$xmlResponse->Parcel->ProvinciaDestinatario);
-        $response->setDescription1((string)$xmlResponse->Parcel->DescrizioneCSM1);
-        $response->setDescription2((string)$xmlResponse->Parcel->DescrizioneCSM2);
-        $response->setShippingWeight((string)$xmlResponse->Parcel->PesoSpedizione);
-        $response->setShippingNotes((string)$xmlResponse->Parcel->NoteSpedizione);
-        $response->setTransportType((string)$xmlResponse->Parcel->DescrizioneTipoPorto);
-        $response->setSenderInitials((string)$xmlResponse->Parcel->SiglaMittente);
-        $response->setProgressiveParcel((string)$xmlResponse->Parcel->ProgressivoCollo);
-        $response->setParcelType((string)$xmlResponse->Parcel->TipoCollo);
-        $response->setGlsDestinationAbbr((string)$xmlResponse->Parcel->SiglaSedeDestino);
-        $response->setPrinter((string)$xmlResponse->Parcel->Sprinter);
-        $response->setTotalPackages((int)$xmlResponse->Parcel->TotaleColli);
-
-        return $response;
+        return $responseObjects;
     }
 
     /**
