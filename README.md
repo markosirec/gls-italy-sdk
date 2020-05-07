@@ -113,10 +113,10 @@ try {
 
 catch(Exception $e) {
 
-    // get response error
+    // get the raw response error
     var_dump($e->getResponse());
 
-    // get original response from GLS
+    // get parsed xml from the GLS response (if the XML was parsed)
     var_dump($e->getXmlResponse());
 }
 ```
