@@ -117,7 +117,7 @@ catch(Exception $e) {
     var_dump($e->getResponse());
 
     // get original response from GLS
-    var_dump($e->getXml());
+    var_dump($e->getXmlResponse());
 }
 ```
 

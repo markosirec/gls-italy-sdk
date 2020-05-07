@@ -342,16 +342,22 @@ final class ParcelAdapter extends BaseAdapter
     /**
      * Parses the Gls response when adding a parcel
      * @param  string $response  The raw response
+     * @throws AddParcelException if Gls returns an error
      * @return array Array of AddParcelResponse response objects carrying the parcel id and pdf label
      */
     public static function parseAddResponse(string $response): array
     {
-        $xmlResponse = new \SimpleXMLElement($response);
+        try {
+            $xmlResponse = new \SimpleXMLElement($response);
+        } catch (Exception $e) {
+            $exception = new AddParcelException('GLS IT returned non-xml response.');
+            $exception->setResponse($response);
+            throw $exception;
+        }
 
         $responseObjects = [];
 
         foreach ($xmlResponse->Parcel as $parcel) {
-
             $response = new AddParcelResponse();
             
             if (!isset($parcel->NumeroSpedizione)) {
@@ -400,7 +406,13 @@ final class ParcelAdapter extends BaseAdapter
      */
     public static function parseCloseResponse(string $response): bool
     {
-        $xmlResponse = new \SimpleXMLElement($response);
+        try {
+            $xmlResponse = new \SimpleXMLElement($response);
+        } catch (Exception $e) {
+            $exception = new CloseParcelException('GLS IT returned non-xml response.');
+            $exception->setResponse($response);
+            throw $exception;
+        }
 
         if ((string)$xmlResponse[0] == 'OK') {
             return true;

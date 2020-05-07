@@ -18,4 +18,42 @@ namespace MarkoSirec\GlsItaly\SDK\Exceptions;
  */
 class BaseException extends \Exception
 {
+    private $xmlResponse;
+    private $response;
+
+    /**
+     * XML response setter
+     * @param \SimpleXMLElement $xmlResponse
+     */
+    public function setXmlResponse(\SimpleXMLElement $xmlResponse): void
+    {
+        $this->xmlResponse = $xmlResponse;
+    }
+
+    /**
+     * XML response getter
+     * @return \SimpleXMLElement
+     */
+    public function getXmlResponse(): \SimpleXMLElement
+    {
+        return $this->xmlResponse;
+    }
+
+    /**
+     * Response setter
+     * @param string $response
+     */
+    public function setResponse(string $response): void
+    {
+        $this->response = $response;
+    }
+
+    /**
+     * Response getter
+     * @return string
+     */
+    public function getResponse(): string
+    {
+        return $this->response;
+    }
 }
