@@ -212,7 +212,22 @@ final class ParcelAdapter extends BaseAdapter
                 'getter' => 'getAdditionalPrivacyText',
                 'xmlElement' => 'InfoPrivacy',
                 'maxLength' => 50
-            ]
+            ],
+            [
+                'getter' => 'getShipmentType',
+                'xmlElement' => 'TipoSpedizione',
+                'maxLength' => 1
+            ],
+            [
+                'getter' => 'getReferencePersonName',
+                'xmlElement' => 'PersonaRiferimento',
+                'maxLength' => 50
+            ],
+            [
+                'getter' => 'getReferencePersonPhoneNumber',
+                'xmlElement' => 'TelefonoDestinatario',
+                'maxLength' => 16
+            ],
         ]
     ];
 
@@ -359,7 +374,7 @@ final class ParcelAdapter extends BaseAdapter
 
         foreach ($xmlResponse->Parcel as $parcel) {
             $response = new AddParcelResponse();
-            
+
             if (!isset($parcel->NumeroSpedizione)) {
                 $response->setError('Unknown error. The parcel id was not returned.');
             } elseif ($parcel->NumeroSpedizione == '999999999') {
