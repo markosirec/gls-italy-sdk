@@ -212,6 +212,16 @@ final class ParcelAdapter extends BaseAdapter
                 'getter' => 'getAdditionalPrivacyText',
                 'xmlElement' => 'InfoPrivacy',
                 'maxLength' => 50
+            ],
+            [
+                'getter' => 'getPickUpDelivery',
+                'xmlElement' => 'FermoDeposito',
+                'maxLength' => 1
+            ],
+            [
+                'getter' => 'getPickUpPoint',
+                'xmlElement' => 'SiglaSedeFermoDeposito',
+                'maxLength' => 4
             ]
         ]
     ];
