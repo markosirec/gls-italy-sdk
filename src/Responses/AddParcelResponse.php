@@ -21,7 +21,7 @@ final class AddParcelResponse extends BaseResponse
     private $parcelId, $pdfLabel, $zplLabel, $senderName, $volumeWeight, $shippingDate, $glsDestination, $csm, $areaCode;
     private $infoPrivacy, $receiverName, $address, $city, $province, $description1, $description2, $shippingWeight;
     private $shippingNotes, $transportType, $senderInitials, $progressiveParcel, $parcelType, $glsDestinationAbbr;
-    private $printer, $totalPackages, $error;
+    private $printer, $totalPackages, $pickUpDelivery, $pickUpPoint, $error;
 
     /**
      * Parcel id setter
@@ -471,6 +471,42 @@ final class AddParcelResponse extends BaseResponse
     public function getTotalPackages(): string
     {
         return $this->totalPackages;
+    }
+
+        /**
+     * pickUpDelivery setter.
+     * @param string $pickUpDelivery
+     */
+    public function setPickUpDelivery(string $pickUpDelivery): void
+    {
+        $this->pickUpDelivery = $pickUpDelivery;
+    }
+
+    /**
+     * pickUpDelivery getter.
+     * @return string
+     */
+    public function getPickUpDelivery(): string
+    {
+        return $this->pickUpDelivery;
+    }
+
+    /**
+     * pickUpPoint setter.
+     * @param string $pickUpPoint
+     */
+    public function setPickUpPoint(string $pickUpPoint): void
+    {
+        $this->pickUpPoint = $pickUpPoint;
+    }
+
+    /**
+     * pickUpPoint getter.
+     * @return string
+     */
+    public function getPickUpPoint(): string
+    {
+        return $this->pickUpPoint;
     }
 
     /**

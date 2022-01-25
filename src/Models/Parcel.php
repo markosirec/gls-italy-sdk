@@ -394,6 +394,40 @@ final class Parcel extends BaseModel
     private $additionalPrivacyText = 'Per info sul trattamento dati personali www.gls-italy.com/privacydest';
 
     /**
+     * Enabling pickup point delivery provided by the GLS Italy DepotPickupService.
+     * Link: https://gls-group.com/IT/it/spedire-ricevere/servizio-per-te/servizi-accessori/depotpickup.
+     *
+     * s = enable pickup point delivery.
+     * Any other value or empty = option disabled.
+     *
+     * Max length is 1.
+     *
+     * From the GLS documentation:
+     *     Se “s” allora attiva il calcolo del “Fermo Deposito” usando l’indirizzo
+     *     specificato per identificare la sigla sede di Fermo Deposito
+     *
+     * @var string
+     */
+    private $pickUpDelivery;
+
+    /**
+     * The actual pickup point where recipient will get the parcel.
+     * For this to work the $pickUp needs to be set to 's' ( enabled ).
+     *
+     * To get the identifier of the pickup point, you should use CheckAddress GLS Italy Service.
+     * https://checkaddress.gls-italy.com/wscheckaddress.asmx
+     *
+     * Max length is 4.
+     *
+     * @var string
+     *
+     *  From the GLS documentation:
+     *     I valori ammessi sono le sigle sedi GLS che fanno fermo deposito
+     *    (verificare mediante metodo CheckDepotPickUp() )
+     */
+    private $pickUpPoint;
+
+    /*
      * Shipment type (used for international shipments)
      *  P = Parcel
      *  N = National (default)
@@ -523,9 +557,9 @@ final class Parcel extends BaseModel
 
     /**
      * Postcode getter
-     * @return string
+     * @return string|null
      */
-    public function getPostcode(): string
+    public function getPostcode(): ?string
     {
         return $this->postcode;
     }
@@ -631,9 +665,9 @@ final class Parcel extends BaseModel
 
     /**
      * Weight getter
-     * @return string
+     * @return string|null
      */
-    public function getWeight(): string
+    public function getWeight(): ?string
     {
         return $this->weight;
     }
@@ -996,6 +1030,42 @@ final class Parcel extends BaseModel
     public function getAdditionalPrivacyText(): ?string
     {
         return $this->additionalPrivacyText;
+    }
+
+    /**
+     * PickUpDelivery setter
+     * @param string $value
+     */
+    public function setPickUpDelivery(string $value): void
+    {
+        $this->pickUpDelivery = $value;
+    }
+
+    /**
+     * PickUpDelivery getter.
+     * @return string|null
+     */
+    public function getPickUpDelivery(): ?string
+    {
+        return $this->pickUpDelivery;
+    }
+
+    /**
+     * PickUpPoint setter
+     * @param string $value
+     */
+    public function setPickUpPoint(string $value): void
+    {
+        $this->pickUpPoint = $value;
+    }
+
+    /**
+     * PickUpPoint setter
+     * @param string $value
+     */
+    public function getPickUpPoint(): ?string
+    {
+        return $this->pickUpPoint;
     }
 
     /**

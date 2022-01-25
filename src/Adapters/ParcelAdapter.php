@@ -214,6 +214,16 @@ final class ParcelAdapter extends BaseAdapter
                 'maxLength' => 50
             ],
             [
+                'getter' => 'getPickUpDelivery',
+                'xmlElement' => 'FermoDeposito',
+                'maxLength' => 1
+            ],
+            [
+                'getter' => 'getPickUpPoint',
+                'xmlElement' => 'SiglaSedeFermoDeposito',
+                'maxLength' => 4
+            ],
+            [
                 'getter' => 'getShipmentType',
                 'xmlElement' => 'TipoSpedizione',
                 'maxLength' => 1
