@@ -427,6 +427,35 @@ final class Parcel extends BaseModel
      */
     private $pickUpPoint;
 
+    /*
+     * Shipment type (used for international shipments)
+     *  P = Parcel
+     *  N = National (default)
+     *
+     * Max length is 1
+     *
+     * @var string
+     */
+    private $shipmentType = 'N';
+
+    /**
+     * Reference person name (used for international shipments)
+     *
+     * Max length is 50
+     *
+     * @var string
+     */
+    private $referencePersonName = null;
+
+    /**
+     * Reference person phone number (used for international shipments)
+     *
+     * Max length is 16
+     *
+     * @var string
+     */
+    private $referencePersonPhoneNumber = null;
+
     /**
      * Status setter
      * @param string $status
@@ -563,12 +592,30 @@ final class Parcel extends BaseModel
     }
 
     /**
+     * ShipmentType setter
+     * @param string $value
+     */
+    public function setShipmentType(string $value): void
+    {
+        $this->shipmentType = $value;
+    }
+
+    /**
      * OrderId getter
      * @return int|null
      */
     public function getOrderId(): ?int
     {
         return $this->orderId;
+    }
+
+    /**
+     * ShipmentType getter
+     * @return string|null
+     */
+    public function getShipmentType(): ?string
+    {
+        return $this->shipmentType;
     }
 
     /**
@@ -985,7 +1032,7 @@ final class Parcel extends BaseModel
         return $this->additionalPrivacyText;
     }
 
-        /**
+    /**
      * PickUpDelivery setter
      * @param string $value
      */
@@ -1019,5 +1066,45 @@ final class Parcel extends BaseModel
     public function getPickUpPoint(): ?string
     {
         return $this->pickUpPoint;
+    }
+
+    /**
+     * Reference persona name needed for international shipments
+     *
+     * @return string
+     */
+    public function getReferencePersonName(): ?string
+    {
+        return $this->referencePersonName;
+    }
+
+    /**
+     * Reference person name setter
+     *
+     * @param ?string $referencePersonName
+     */
+    public function setReferencePersonName(?string $referencePersonName): void
+    {
+        $this->referencePersonName = $referencePersonName;
+    }
+
+    /**
+     * Reference person phone number
+     *
+     * @return string
+     */
+    public function getReferencePersonPhoneNumber(): ?string
+    {
+        return $this->referencePersonPhoneNumber;
+    }
+
+    /**
+     * Reference person phone number setter
+     *
+     * @param ?string $referencePersonPhoneNumber
+     */
+    public function setReferencePersonPhoneNumber(?string $referencePersonPhoneNumber): void
+    {
+        $this->referencePersonPhoneNumber = $referencePersonPhoneNumber;
     }
 }
