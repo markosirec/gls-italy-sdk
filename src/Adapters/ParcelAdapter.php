@@ -416,6 +416,7 @@ final class ParcelAdapter extends BaseAdapter
             $response->setParcelType((string)$parcel->TipoCollo);
             $response->setGlsDestinationAbbr((string)$parcel->SiglaSedeDestino);
             $response->setPrinter((string)$parcel->Sprinter);
+            $response->setBda((string)$parcel->Bda);
             $response->setTotalPackages((int)$parcel->TotaleColli);
             $responseObjects[] = $response;
         }

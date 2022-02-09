@@ -21,7 +21,7 @@ final class AddParcelResponse extends BaseResponse
     private $parcelId, $pdfLabel, $zplLabel, $senderName, $volumeWeight, $shippingDate, $glsDestination, $csm, $areaCode;
     private $infoPrivacy, $receiverName, $address, $city, $province, $description1, $description2, $shippingWeight;
     private $shippingNotes, $transportType, $senderInitials, $progressiveParcel, $parcelType, $glsDestinationAbbr;
-    private $printer, $totalPackages, $pickUpDelivery, $pickUpPoint, $error;
+    private $printer, $Bda, $totalPackages, $pickUpDelivery, $pickUpPoint, $error;
 
     /**
      * Parcel id setter
@@ -453,6 +453,24 @@ final class AddParcelResponse extends BaseResponse
     public function getPrinter(): string
     {
         return $this->printer;
+    }
+
+    /**
+     * Bda setter
+     * @param string $bda
+     */
+    public function setBda(string $Bda): void
+    {
+        $this->Bda = $Bda;
+    }
+
+    /**
+     * Bda getter
+     * @return string
+     */
+    public function getBda(): string
+    {
+        return $this->Bda;
     }
 
     /**
