@@ -73,7 +73,12 @@ final class ParcelService extends BaseService
         $result = static::get('ListSpedPeriod', $params);
         return ParcelAdapter::parseListResponse($result);
     }
-
+    public static function getPdf(Auth $auth, int $progressiveId){
+        $authAdapter = new AuthAdapter($auth);
+        $params = (array)$authAdapter->get();
+        $params['ContatoreProgressivo'] = $progressiveId;
+        return static::get('GetPdf',$params);
+    }
     /**
      * Adds parcels
      * @param Auth   $auth   Instance of the Auth object

@@ -23,5 +23,11 @@
     },
     "autoload-dev": {
         "psr-4": { "MarkoSirec\\Tests\\GlsItaly\\SDK\\": "tests/" }
-    }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/damianostevanato/gls-italy-sdk.git"
+        }
+    ]
 }
