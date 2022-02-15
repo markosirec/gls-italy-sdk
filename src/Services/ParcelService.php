@@ -73,11 +73,24 @@ final class ParcelService extends BaseService
         $result = static::get('ListSpedPeriod', $params);
         return ParcelAdapter::parseListResponse($result);
     }
-    public static function getPdf(Auth $auth, int $progressiveId){
-        $authAdapter = new AuthAdapter($auth);
-        $params = (array)$authAdapter->get();
-        $params['ContatoreProgressivo'] = $progressiveId;
-        return static::get('GetPdf',$params);
+
+    /**
+     * Get the label pdf as base64 for the specified parcel progressiveId
+     * @param Auth $auth
+     * @param int $progressiveId
+     * @return string
+     */
+    public static function getPdf(Auth $auth, int $progressiveId) : string
+    {
+        $params = [
+            'SedeGls' => $auth->getBranchId(),
+            'CodiceCliente' => $auth->getClientId(),
+            'Password' => $auth->getPassword(),
+            'CodiceContratto' => $auth->getContractId(),
+            'ContatoreProgressivo' => $progressiveId,
+        ];
+        $result = static::get('GetPdf',$params);
+        return ParcelAdapter::parseGetPdfResponse($result);
     }
     /**
      * Adds parcels
