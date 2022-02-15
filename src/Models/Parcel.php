@@ -427,6 +427,8 @@ final class Parcel extends BaseModel
      */
     private $pickUpPoint;
 
+    private $progressiveId;
+
     /*
      * Shipment type (used for international shipments)
      *  P = Parcel
@@ -1106,5 +1108,26 @@ final class Parcel extends BaseModel
     public function setReferencePersonPhoneNumber(?string $referencePersonPhoneNumber): void
     {
         $this->referencePersonPhoneNumber = $referencePersonPhoneNumber;
+    }
+
+
+    /**
+     * Auto increment parcel id setter
+     *
+     * @param ?string $progressiveId
+     */
+    public function setProgressiveId(?string $progressiveId): void
+    {
+        $this->progressiveId = $progressiveId;
+    }
+
+    /**
+     * Auto increment parcel id getter
+     *
+     * @return  ?string $progressiveId
+     */
+    public function getProgressiveId() :?string
+    {
+        return $this->progressiveId;
     }
 }

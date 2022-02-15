@@ -238,6 +238,13 @@ final class ParcelAdapter extends BaseAdapter
                 'xmlElement' => 'TelefonoDestinatario',
                 'maxLength' => 16
             ],
+            [
+                'getter' => 'getProgressiveId',
+                'xmlElement' => 'ContatoreProgressivo',
+                'maxLength' => 9,
+                'errorMessage' => 'Missing parcel progressive id',
+                'required' => false,
+            ],
         ]
     ];
 
