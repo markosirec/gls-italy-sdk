@@ -358,7 +358,7 @@ final class ParcelAdapter extends BaseAdapter
     public static function parseGetPdfResponse(string $result): string
     {
         $result = new \SimpleXMLElement($result);
-        return $result->xpath("base64Binary");
+        return $result->__toString();
     }
 
     /**
