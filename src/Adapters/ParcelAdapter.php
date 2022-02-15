@@ -355,10 +355,10 @@ final class ParcelAdapter extends BaseAdapter
      * @param  string $result The raw xml response from Gls
      * @return string          base64 pdf label
      */
-    public static function parseGetPdfResponse(string $result): array
+    public static function parseGetPdfResponse(string $result): string
     {
         $result = new \SimpleXMLElement($result);
-        return $result->base64Binary;
+        return $result->xpath("base64Binary");
     }
 
     /**
