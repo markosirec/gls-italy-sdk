@@ -43,7 +43,7 @@ final class ParcelService extends BaseService
      * @param  Auth   $auth     Instance of the Auth object
      * @param  String $status   - Null for all states
      *                          - 0 for parcels awaiting closure
-     *                          - 1 for closed parcels 
+     *                          - 1 for closed parcels
      * @return array            List of parcels
      */
     public static function listByStatus(Auth $auth, String $status = ""): array
@@ -60,8 +60,8 @@ final class ParcelService extends BaseService
      * form "date to". If "date to" is not specified, then the current date is used.
      * Hours and minutes are optional.
      * @param  Auth   $auth     Instance of the Auth object
-     * @param  String $dateFrom The format should be YYYYMMDDHHII (year-month-day-hour-minute) 
-     * @param  String $dateTo   The format should be YYYYMMDDHHII (year-month-day-hour-minute) 
+     * @param  String $dateFrom The format should be YYYYMMDDHHII (year-month-day-hour-minute)
+     * @param  String $dateTo   The format should be YYYYMMDDHHII (year-month-day-hour-minute)
      * @return array            List of parcels
      */
     public static function listByPeriod(Auth $auth, String $dateFrom = "", String $dateTo = ""): array
@@ -92,10 +92,10 @@ final class ParcelService extends BaseService
             $xmlData['Parcel__'.$i] = (array)$parcelAdapter->get();
             $i++;
         }
-        
+
         $xmlData = array_merge((array)$authAdapter->get(), $xmlData);
         $xml = new \SimpleXMLElement('<Info/>');
-        static::toXml($xml, $xmlData); 
+        static::toXml($xml, $xmlData);
         $result = static::get('AddParcel', ['XMLInfoParcel' => $xml->asXML()]);
 
         return ParcelAdapter::parseAddResponse($result);
